@@ -9,6 +9,6 @@ edition = "2021"
 dotenv = "0.15.0"
 modbus = "1.0.4"
 serde = { version = "1.0.137", features = ["derive"] }
-[dependencies.rocket]
-version = "0.5.0-rc.2"
-features = ["json"]
+thiserror = "1.0.31"
+phf = { version = "0.10.1", features = ["macros"] }
+rocket = { version = "0.5.0-rc.2", features = ["json"] }
