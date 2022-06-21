@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate rocket;
 use rocket::State;
+use rocket::response::status;
 use rocket::http::Status;
 use rocket::serde::json::Json;
 use rocket::serde::Serialize;
@@ -190,9 +191,9 @@ fn poll_solar_data(client_ip: String) -> Result<MinerData, MinerError> {
  Polls the power analyzer and returns relevant data as JSON.
  */
 #[get("/data")]
-fn data(state: &State<MinerState>) -> Result<Json<MinerData>, Status> {
+fn data(state: &State<MinerState>) -> Result<Json<MinerData>, status::Custom<String>> {
     let data = poll_solar_data(state.client_ip.clone())
-      .or_else(|_| Err(Status::InternalServerError))?;
+      .or_else(|e| Err(status::Custom(Status::InternalServerError, e.to_string())))?;
     Ok(Json(data))
 }
 
